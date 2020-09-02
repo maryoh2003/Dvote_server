@@ -1,0 +1,66 @@
+{
+  "name": "DVMS_server",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register --files src/app.ts",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "@config/(.*)": "<rootDir>/config/$1",
+      "@src/(.*)": "<rootDir>/src/$1",
+      "@lib/(.*)": "<rootDir>/src/lib/$1",
+      "@models/(.*)": "<rootDir>/src/models/$1",
+      "@interface/(.*)": "<rootDir>/src/interface/$1",
+      "@repository/(.*)": "<rootDir>/src/repositories/$1",
+      "@service/(.*)": "<rootDir>/src/services/$1",
+      "@controller/(.*)": "<rootDir>/src/controllers/$1",
+      "@middleware/(.*)": "<rootDir>/src/middlewares/$1",
+      "@entity/(.*)": "<rootDir>/src/models/entities/$1"
+    },
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "enableTsDiagnostics": true
+      }
+    }
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@types/cors": "^2.8.6",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.0.11",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "class-validator": "^0.12.2",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "typedi": "^0.8.0",
+    "typeorm": "^0.2.25",
+    "typeorm-typedi-extensions": "^0.2.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/jest": "^25.2.3",
+    "@types/multer": "^1.4.3",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.5"
+  }
+}

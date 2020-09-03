@@ -1,13 +1,16 @@
 import { Service } from "typedi";
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import MemberRepository from "@repository/member.repository";
-import MemberRequest from "@lib/request/auth/member.req";
+import Member from '@models/member';
 import { MemberType } from "@lib/enum/member";
 import StudentRepository from "@repository/student.repository";
 import StudentRequest from "@lib/request/auth/student.req";
 import { getManager } from "typeorm";
 import TeacherRequest from "@lib/request/auth/teacher.req";
 import TeacherRepository from "@repository/teacher.repository";
+import errors from "@lib/errors";
+import CustomError from "@lib/errors/customError";
+import LoginRequest from "@lib/request/auth/login.req";
 
 @Service()
 export default class MemberService {
@@ -18,6 +21,14 @@ export default class MemberService {
     private readonly studentRepository: StudentRepository,
     private readonly teacherRepository: TeacherRepository,
   ) { }
+
+  public getMember = async (email: string): Promise<Member | null> => {
+    const member = await this.memberRepository.findOne(email);
+    if (member === undefined) {
+      return null;
+    }
+    return member;
+  }
 
   /**
    * @description 회원 존재 여부 확인
@@ -64,5 +75,52 @@ export default class MemberService {
       teacher.member = createdMember;
       await this.teacherRepository.addTeacher(manager, teacher);
     })
+  }
+
+  /**
+   * @description 로그인
+   */
+  public login = async (data: LoginRequest): Promise<Member> => {
+    const member = await this.memberRepository.getMemberByEmailAndPw(data.email, data.pw);
+
+    if (member === undefined) {
+      throw new CustomError({
+        code: 401,
+        message: '인증 실패',
+      });
+    }
+
+    if (member.isAllowed == false) {
+      throw new CustomError({
+        code: 403,
+        message: '승인되지 않은 회원',
+      });
+    }
+
+    return member;
+  }
+
+  /**
+   * @description 회원 승인
+   */
+  public allowMember = async (email: string) => {
+    const member = this.memberRepository.findOne(email);
+
+    if (member === undefined) {
+      throw new CustomError(errors.NoUser);
+    }
+    await this.memberRepository.allowMember(email);
+  }
+
+  /**
+   * @description 회원 거절
+   */
+  public denyMember = async (email: string) => {
+    const member = await this.getMember(email);
+
+    if (member === null) {
+      throw new CustomError(errors.NoUser);
+    }
+    await this.memberRepository.remove(member);
   }
 }

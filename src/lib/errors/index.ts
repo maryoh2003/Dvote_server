@@ -13,7 +13,7 @@ const errors: { [key: string]: IError } = {
     code: 500,
     message: '서버 오류',
   },
-  NoUser: {
+  NoMember: {
     code: 404,
     message: '회원 없음',
   },

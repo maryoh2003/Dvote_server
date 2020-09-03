@@ -1,5 +1,5 @@
 {
-  "name": "DVMS_server",
+  "name": "Dvote_server",
   "version": "1.0.0",
   "main": "index.ts",
   "license": "MIT",

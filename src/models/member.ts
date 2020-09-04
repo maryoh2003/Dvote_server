@@ -28,7 +28,10 @@ export default class Member {
   })
   memberType: MemberType;
 
-  @Column({ name: 'is_allowed' })
+  @Column({
+    name: 'is_allowed',
+    default: false,
+  })
   isAllowed: boolean;
 
   @CreateDateColumn({ name: 'joined_at' })

@@ -1,7 +1,7 @@
 import Member from '@models/member';
 import { EntityRepository, Repository, TransactionManager, EntityManager } from "typeorm";
 
-@EntityRepository()
+@EntityRepository(Member)
 export default class MemberRepository extends Repository<Member> {
 
   /**

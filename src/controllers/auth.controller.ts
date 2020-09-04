@@ -33,7 +33,7 @@ export default class AuthController {
           throw new CustomError(errors.WrongRequest);
         }
 
-        if (this.memberService.isExist(registerData.email)) {
+        if (await this.memberService.isExist(registerData.email)) {
           throw new CustomError({
             code: 409,
             message: '이미 존재하는 회원',
@@ -47,7 +47,7 @@ export default class AuthController {
           throw new CustomError(errors.WrongRequest);
         }
 
-        if (this.memberService.isExist(registerData.email)) {
+        if (await this.memberService.isExist(registerData.email)) {
           throw new CustomError({
             code: 409,
             message: '이미 존재하는 회원',
@@ -55,7 +55,14 @@ export default class AuthController {
         }
 
         await this.memberService.registerTeacher(registerData);
+
+      } else {
+        throw new CustomError(errors.WrongRequest);
       }
+
+      res.status(200).json({
+        message: '회원가입 성공',
+      });
     } catch (err) {
       next(err);
     }

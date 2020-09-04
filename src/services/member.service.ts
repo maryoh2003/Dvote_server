@@ -18,7 +18,9 @@ export default class MemberService {
   constructor(
     @InjectRepository()
     private readonly memberRepository: MemberRepository,
+    @InjectRepository()
     private readonly studentRepository: StudentRepository,
+    @InjectRepository()
     private readonly teacherRepository: TeacherRepository,
   ) { }
 
@@ -35,7 +37,7 @@ export default class MemberService {
    * @param email 이메일
    */
   public isExist = async (email: string): Promise<boolean> => {
-    const member = this.memberRepository.getMemberByEmail(email);
+    const member = await this.memberRepository.getMemberByEmail(email);
     if (member === undefined) {
       return false;
     }

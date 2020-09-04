@@ -1,7 +1,7 @@
 import Student from '@models/student';
 import { EntityRepository, Repository, TransactionManager, EntityManager } from "typeorm";
 
-@EntityRepository()
+@EntityRepository(Student)
 export default class StudentRepository extends Repository<Student>{
 
   /**

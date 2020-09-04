@@ -102,15 +102,25 @@ export default class MemberService {
     return member;
   }
 
+  public isCheckAllowed = async (member: Member) => {
+    if (member.isAllowed) {
+      throw new CustomError({
+        code: 409,
+        message: '이미 승인된 회원',
+      });
+    }
+  }
+
   /**
    * @description 회원 승인
    */
   public allowMember = async (email: string) => {
-    const member = this.memberRepository.findOne(email);
+    const member = await this.getMember(email);
 
-    if (member === undefined) {
-      throw new CustomError(errors.NoUser);
+    if (member === null) {
+      throw new CustomError(errors.NoMember);
     }
+    await this.isCheckAllowed(member);
     await this.memberRepository.allowMember(email);
   }
 
@@ -121,8 +131,9 @@ export default class MemberService {
     const member = await this.getMember(email);
 
     if (member === null) {
-      throw new CustomError(errors.NoUser);
+      throw new CustomError(errors.NoMember);
     }
+    await this.isCheckAllowed(member);
     await this.memberRepository.remove(member);
   }
 }

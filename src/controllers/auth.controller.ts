@@ -127,6 +127,10 @@ export default class AuthController {
       }
 
       await this.memberService.denyMember(email);
+
+      res.status(200).json({
+        message: '회원 거절 성공',
+      });
     } catch (err) {
       next(err);
     }

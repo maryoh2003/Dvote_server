@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, ManyToOne, RelationId } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, ManyToOne, RelationId, OneToMany } from "typeorm";
 import Teacher from './teacher';
 import TargetGroup from "./targetGroup";
+import Question from "./question";
 
 @Entity('vote')
 export default class Vote {
@@ -36,4 +37,7 @@ export default class Vote {
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
+
+  @OneToMany(type => Question, question => question.vote)
+  questions: Question[];
 }

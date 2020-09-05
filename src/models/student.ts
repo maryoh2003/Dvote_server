@@ -1,5 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, RelationId } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, RelationId, OneToMany } from "typeorm";
 import Member from "./member";
+import OptionChoice from "./option_choice";
+import TargetGroup from './targetGroup';
 
 /**
  * @description 학생
@@ -27,4 +29,10 @@ export default class Student {
 
   @RelationId((student: Student) => student.member)
   memberEmail: string;
+
+  @OneToMany(type => OptionChoice, optionChoice => optionChoice.student)
+  optionChoices: OptionChoice[];
+
+  @OneToMany(type => TargetGroup, targetGroup => targetGroup.student)
+  targetGroups: TargetGroup[];
 }

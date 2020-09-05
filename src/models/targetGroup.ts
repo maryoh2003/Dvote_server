@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, RelationId } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, RelationId, OneToMany } from "typeorm";
 import Target from "./target";
 import Student from './student';
+import Vote from "./vote";
 
 @Entity('target_group')
 export default class TargetGroup {
@@ -24,4 +25,7 @@ export default class TargetGroup {
 
   @RelationId((targetGroup: TargetGroup) => targetGroup.student)
   studentIdx: number;
+
+  @OneToMany(type => Vote, vote => vote.targetGroup)
+  votes: Vote[];
 }

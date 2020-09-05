@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, RelationId, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, RelationId, Column, OneToMany } from "typeorm";
 import Question from "./question";
+import OptionChoice from "./option_choice";
 
 @Entity('option')
 export default class Option {
@@ -17,4 +18,7 @@ export default class Option {
 
   @Column({ name: 'option' })
   option: string;
+
+  @OneToMany(type => OptionChoice, optionChoice => optionChoice.option)
+  optionChoices: OptionChoice[];
 }

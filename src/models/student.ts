@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, RelationId } from "typeorm";
 import Member from "./member";
 
 /**
@@ -15,11 +15,8 @@ export default class Student {
   @Column({ name: 'classroom' })
   classroom: number;
 
-  @Column({ name: 'number' })
-  number: number;
-
-  @Column({ name: 'phone' })
-  phone: string;
+  @Column({ name: 'student_number' })
+  studentNumber: number;
 
   @JoinColumn({ name: 'fk_memer_email' })
   @OneToOne(type => Member, {
@@ -27,4 +24,7 @@ export default class Student {
     nullable: false
   })
   member: Member;
+
+  @RelationId((student: Student) => student.member)
+  memberEmail: string;
 }

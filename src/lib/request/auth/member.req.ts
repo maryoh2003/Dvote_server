@@ -15,4 +15,7 @@ export default class MemberRequest extends RequestBase {
 
   @IsEnum(MemberType)
   memberType: MemberType;
+
+  @IsString()
+  phone: string;
 }

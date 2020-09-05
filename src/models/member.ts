@@ -20,6 +20,9 @@ export default class Member {
   @Column({ name: 'name' })
   name: string;
 
+  @Column({ name: 'phone' })
+  phone: string;
+
   @Column({
     name: 'member_type',
     default: MemberType.GUEST,

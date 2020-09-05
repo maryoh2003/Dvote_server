@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, RelationId } from "typeorm";
 import Member from "./member";
 
 /**
@@ -12,13 +12,13 @@ export default class Teacher {
   @Column({ name: 'position' })
   position: string;
 
-  @Column({ name: 'phone' })
-  phone: string;
-
   @JoinColumn({ name: 'fk_member_email' })
   @OneToOne(type => Member, {
     onDelete: 'CASCADE',
     nullable: false,
   })
   member: Member;
+
+  @RelationId((teacher: Teacher) => teacher.member)
+  memberEmail: string;
 }

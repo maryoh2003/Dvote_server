@@ -9,8 +9,5 @@ export default class StudentRequest extends MemberRequest {
   classroom: number;
 
   @IsNumber()
-  number: number;
-
-  @IsString()
-  phone: string;
+  studentNumber: number;
 }

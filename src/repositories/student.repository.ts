@@ -12,4 +12,15 @@ export default class StudentRepository extends Repository<Student>{
   public async addStudent(@TransactionManager() manager: EntityManager, student: Student): Promise<Student> {
     return manager.save<Student>(student);
   }
+
+  /**
+   * @description 승인된 학생 전체 조회
+   */
+  public getAcceptedStudents = async (): Promise<Student[]> => {
+    return this.createQueryBuilder()
+      .leftJoinAndSelect('student.member', 'student')
+      .where('is_allowed = true')
+      .orderBy('email', 'ASC')
+      .getMany();
+  }
 }

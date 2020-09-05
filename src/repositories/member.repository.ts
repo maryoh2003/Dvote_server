@@ -72,4 +72,14 @@ export default class MemberRepository extends Repository<Member> {
       .where('email = :email', { email })
       .execute();
   }
+
+  /**
+   * @description 승인 대기 중 회원 조회
+   */
+  public getWaitingMembers = () => {
+    return this.createQueryBuilder()
+      .where('is_allowed = false')
+      .orderBy('email', 'ASC')
+      .getMany();
+  }
 }

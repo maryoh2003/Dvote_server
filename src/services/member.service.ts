@@ -136,4 +136,13 @@ export default class MemberService {
     await this.isCheckAllowed(member);
     await this.memberRepository.remove(member);
   }
+
+  /**
+   * @description 승인 대기 중인 회원 조회
+   */
+  public getWaitingMembers = async (): Promise<Member[]> => {
+    const members = this.memberRepository.getWaitingMembers();
+
+    return members;
+  }
 }

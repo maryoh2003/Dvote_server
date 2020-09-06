@@ -1,7 +1,7 @@
+import Vote from '@models/vote';
 import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(Vote)
-export default class Vote extends Repository<Vote> {
-
+export default class VoteRepository extends Repository<Vote> {
 
 }

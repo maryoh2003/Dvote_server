@@ -7,6 +7,7 @@ import Vote from './vote';
 import Target from './target';
 import TargetGroup from './targetGroup';
 import Question from './question';
+import Admin from './admin';
 
 export default [
   Teacher,
@@ -17,5 +18,6 @@ export default [
   Vote,
   Target,
   TargetGroup,
-  Question
+  Question,
+  Admin
 ];

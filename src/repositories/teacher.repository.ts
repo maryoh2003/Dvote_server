@@ -1,5 +1,6 @@
 import Teacher from '@models/teacher';
 import { EntityRepository, Repository, TransactionManager, EntityManager } from 'typeorm';
+import Member from '@models/member';
 
 @EntityRepository(Teacher)
 export default class TeacherRepository extends Repository<Teacher> {
@@ -20,5 +21,11 @@ export default class TeacherRepository extends Repository<Teacher> {
       .where('is_allowed = true')
       .orderBy('email', 'ASC')
       .getMany();
+  }
+
+  public getTeacherByMember = async (member: Member): Promise<Teacher | undefined> => {
+    return this.createQueryBuilder()
+      .where('fk_member_id = :member', { member: member.email })
+      .getOne();
   }
 }

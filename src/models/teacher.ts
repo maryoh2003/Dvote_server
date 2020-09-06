@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, RelationId, OneToMany } from "typeorm";
 import Member from "./member";
 import Vote from "./vote";
+import Admin from "./admin";
 
 /**
  * @description 선생님
@@ -25,4 +26,7 @@ export default class Teacher {
 
   @OneToMany(type => Vote, vote => vote.teacher)
   votes: Vote[];
+
+  @OneToOne(type => Admin, admin => admin.teacher)
+  admin: Admin;
 }

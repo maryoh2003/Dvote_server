@@ -2,31 +2,28 @@ import { Response, NextFunction } from 'express';
 import errorMiddleware from './error.middleware';
 import CustomError from '@lib/errors/customError';
 import errors from '@lib/errors';
-import { AccountType } from '@lib/enum/user';
+import { MemberType } from '@lib/enum/member';
 import Container from 'typedi';
 import TokenService from '@service/token.service';
 import { isArray } from 'util';
-import UserService from '@service/user.service';
+import MemberService from '@service/member.service';
 import TeacherService from '@service/teacher.service';
-import AdminService from '@service/admin.service';
-import UserPermissionService from '@service/userPermission.service';
+import AdminSerivce from '@service/admin.service';
 
 type StrAccessLevelType =
   'student'
   | 'teacher'
-  | 'parent'
   | 'guest'
   | 'admin';
 
 /**
  * @description 인증 미들웨어
  */
-export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType, permission?: string) =>
+export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType) =>
   async (req: any, res: Response, next: NextFunction) => {
 
     const tokenService = Container.get(TokenService);
-    const userPermissionService = Container.get(UserPermissionService);
-    const userService = Container.get(UserService);
+    const memberService = Container.get(MemberService);
 
     const token: string | string[] = req.headers['x-access-token'];
 
@@ -37,29 +34,17 @@ export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType, perm
     try {
       const decoded = Object(await tokenService.verifyToken(token));
 
-      const { id }: { id: string } = decoded;
-      const user = await userService.getUser(id);
-      if (user === null) {
-        throw new CustomError(errors.NoUser);
+      const { email }: { email: string } = decoded;
+      const member = await memberService.getMember(email);
+      if (member === null) {
+        throw new CustomError(errors.NoMember);
       }
 
-      req.user = user;
+      req.member = member;
 
       // 권한이 필요 없는 경우
       if (strAccessLevel === undefined) {
         return next();
-      }
-
-
-      // 할당된 권한이 필요한 경우
-      if (permission !== undefined) {
-        const hasUserPermission = await userPermissionService.
-          hasPermission(user.id, permission);
-
-        // 필요한 권한을 할당받은 경우
-        if (hasUserPermission === true) {
-          return next();
-        }
       }
 
       let strAccessLevels: string[] = [];
@@ -75,9 +60,9 @@ export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType, perm
        */
       if (strAccessLevels.includes('admin') === true) {
         const teacherService = Container.get(TeacherService);
-        const adminService = Container.get(AdminService);
+        const adminService = Container.get(AdminSerivce);
 
-        const teacher = await teacherService.getTeacher(user.id);
+        const teacher = await teacherService.getTeacher(member.email);
         if (teacher === null) {
           throw new CustomError(errors.Forbidden);
         }
@@ -91,24 +76,20 @@ export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType, perm
       }
 
       // strAccessLevle을 accountType으로 변경
-      const accessLevels: AccountType[] = [];
+      const accessLevels: MemberType[] = [];
 
       for (const strAccessLevelItem of strAccessLevels) {
         switch (strAccessLevelItem) {
           case 'student':
-            accessLevels.push(AccountType.STUDENT);
+            accessLevels.push(MemberType.STUDENT);
             break;
 
           case 'teacher':
-            accessLevels.push(AccountType.TEACHER);
-            break;
-
-          case 'parent':
-            accessLevels.push(AccountType.PARENT);
+            accessLevels.push(MemberType.TEACHER);
             break;
 
           case 'guest':
-            accessLevels.push(AccountType.GUEST);
+            accessLevels.push(MemberType.GUEST);
             break;
 
           case 'admin':
@@ -122,7 +103,7 @@ export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType, perm
         }
       }
 
-      if (accessLevels.includes(user.accountType) === true) {
+      if (accessLevels.includes(member.memberType) === true) {
         return next();
       }
 

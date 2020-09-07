@@ -73,7 +73,7 @@ export default class AuthController {
    */
   public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { body } = req.body;
+      const { body } = req;
 
       const data = new LoginRequest(body);
       if (!await data.validate()) {

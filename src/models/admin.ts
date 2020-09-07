@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, JoinColumn, OneToOne } from "typeorm";
+import { Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import Teacher from "./teacher";
 
 @Entity('admin')
 export default class Admin {
-  @PrimaryGeneratedColumn({ name: 'idx' })
-  idx: number;
+  @PrimaryColumn({ name: 'fk_teacher_idx' })
+  teacherIdx: number;
 
   @JoinColumn({ name: 'fk_teacher_idx' })
   @OneToOne(type => Teacher, {

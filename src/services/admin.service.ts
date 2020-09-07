@@ -4,11 +4,13 @@ import Admin from '@models/admin';
 import TeacherService from "./teacher.service";
 import CustomError from "@lib/errors/customError";
 import errors from '@lib/errors';
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 @Service()
 export default class AdminService {
 
   constructor(
+    @InjectRepository()
     private readonly adminRepository: AdminRepository,
     private readonly teacherService: TeacherService,
   ) { }

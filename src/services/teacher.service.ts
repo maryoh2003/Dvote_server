@@ -4,11 +4,13 @@ import Teacher from '@models/teacher';
 import MemberService from "./member.service";
 import CustomError from "@lib/errors/customError";
 import errors from '@lib/errors';
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 @Service()
 export default class TeacherService {
 
   constructor(
+    @InjectRepository()
     private readonly teacherRepository: TeacherRepository,
     private readonly memberService: MemberService,
   ) { }
@@ -18,7 +20,7 @@ export default class TeacherService {
     return teachers;
   }
 
-  public getTeacherByIdx = async (idx: number): Promise<Teacher> => {
+  public getTeacherByIdx = async (idx: number): Promise<Teacher | null> => {
     const teacher = this.teacherRepository.findOne(idx);
 
     if (teacher === undefined) {

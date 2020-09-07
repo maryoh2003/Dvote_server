@@ -1,4 +1,4 @@
-import { Service } from "typedi";
+import { Service, Inject } from "typedi";
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import MemberRepository from "@repository/member.repository";
 import Member from '@models/member';
@@ -92,7 +92,7 @@ export default class MemberService {
       });
     }
 
-    if (member.isAllowed == false) {
+    if (member.isAllowed === false) {
       throw new CustomError({
         code: 403,
         message: '승인되지 않은 회원',

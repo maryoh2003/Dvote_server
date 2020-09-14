@@ -18,9 +18,7 @@ export default class MemberService {
   constructor(
     @InjectRepository()
     private readonly memberRepository: MemberRepository,
-    @InjectRepository()
     private readonly studentRepository: StudentRepository,
-    @InjectRepository()
     private readonly teacherRepository: TeacherRepository,
   ) { }
 

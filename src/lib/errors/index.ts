@@ -29,6 +29,10 @@ const errors: { [key: string]: IError } = {
     code: 404,
     message: '관리자 없음'
   },
+  NoVote: {
+    code: 404,
+    message: '설문 없음'
+  },
 };
 
 export default errors;

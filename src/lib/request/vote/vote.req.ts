@@ -6,7 +6,7 @@ export default class VoteRequest extends RequestBase {
   title: string;
 
   @IsNumber()
-  targetGroupIdx: number;
+  targetIdx: number;
 
   @IsDateString()
   scheduledAt: Date;

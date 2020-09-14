@@ -5,10 +5,11 @@ import errors from '@lib/errors';
 import { MemberType } from '@lib/enum/member';
 import Container from 'typedi';
 import TokenService from '@service/token.service';
-import { isArray } from 'util';
 import MemberService from '@service/member.service';
 import TeacherService from '@service/teacher.service';
 import AdminSerivce from '@service/admin.service';
+import TeacherRepository from '@repository/teacher.repository';
+import { ExclusionMetadata } from 'typeorm/metadata/ExclusionMetadata';
 
 type StrAccessLevelType =
   'student'
@@ -69,6 +70,17 @@ export default (strAccessLevel?: StrAccessLevelType[] | StrAccessLevelType) =>
 
         const admin = await adminService.getAdmin(teacher.idx);
         if (admin === null) {
+          throw new CustomError(errors.Forbidden);
+        }
+
+        return next();
+      }
+
+      if (strAccessLevel.includes('teacher') === true) {
+        const teacherService = Container.get(TeacherService);
+
+        const teacher = await teacherService.getTeacher(member.email);
+        if (teacher === null) {
           throw new CustomError(errors.Forbidden);
         }
 

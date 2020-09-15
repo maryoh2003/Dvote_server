@@ -9,7 +9,7 @@ import * as logger from '@lib/logger';
 export default (err: CustomError | Error, req: Request, res: Response, next: NextFunction) => {
   let customError;
   if (!(err instanceof CustomError)) {
-    // TODO: 오류 전송
+
     logger.serverError(`[${req.method}] ${req.path}`, err);
 
     customError = new CustomError({

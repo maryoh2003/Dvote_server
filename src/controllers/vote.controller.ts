@@ -83,10 +83,7 @@ export default class VoteController {
       console.log('controller');
       const idx = getNumberParam(req.params);
       const { body } = req;
-      console.log('dd');
       const data = new VoteRequest(body);
-      console.log('ee');
-      console.log(data);
 
       if (!await data.validate()) {
         throw new CustomError(errors.WrongRequest);

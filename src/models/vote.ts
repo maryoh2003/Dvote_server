@@ -11,7 +11,9 @@ export default class Vote {
   @Column({ name: 'title' })
   title: string;
 
-  @JoinColumn({ name: 'fk_target_idx' })
+  @JoinColumn({
+    name: 'fk_target_idx'
+  })
   @ManyToOne(type => Target, {
     onDelete: 'CASCADE',
   })

@@ -41,7 +41,6 @@ export default class VoteService {
   }
 
   public createVote = async (email: string, data: VoteRequest): Promise<void> => {
-    console.log('service');
     const teacher = await this.teacherService.getTeacher(email);
 
     const vote = this.voteRepository.create(data);
@@ -51,6 +50,7 @@ export default class VoteService {
   }
 
   public modifyVote = async (idx: number, data: VoteRequest): Promise<void> => {
+    console.log('service');
     const vote = await this.getVoteByIdx(idx);
     if (vote === null) {
       throw new CustomError(errors.NoVote);

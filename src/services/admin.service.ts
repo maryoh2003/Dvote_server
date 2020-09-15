@@ -15,7 +15,17 @@ export default class AdminService {
     private readonly teacherService: TeacherService,
   ) { }
 
-  public getAdmin = async (teacherIdx: number): Promise<Admin | null> => {
+  public getAdmin = async (email: string): Promise<Admin> => {
+    const admin = await this.adminRepository.findOne(email);
+
+    if (admin === undefined) {
+      return null;
+    }
+
+    return admin;
+  }
+
+  public getAdminByTeacherIdx = async (teacherIdx: number): Promise<Admin | null> => {
     const teacher = await this.teacherService.getTeacherByIdx(teacherIdx);
 
     if (teacher === null) {

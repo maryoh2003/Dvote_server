@@ -80,10 +80,12 @@ export default class VoteController {
    */
   public modifyVote = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log('controller');
       const idx = getNumberParam(req.params);
       const { body } = req;
-
+      console.log('dd');
       const data = new VoteRequest(body);
+      console.log('ee');
       console.log(data);
 
       if (!await data.validate()) {

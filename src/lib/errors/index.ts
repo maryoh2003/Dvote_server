@@ -37,6 +37,10 @@ const errors: { [key: string]: IError } = {
     code: 404,
     message: '항목 없음',
   },
+  NoOption: {
+    code: 404,
+    message: '보기 없음',
+  }
 };
 
 export default errors;

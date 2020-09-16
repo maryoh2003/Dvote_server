@@ -49,6 +49,7 @@ export default class QuestionService {
   public createQuestion = async (data: QuestionRequest): Promise<void> => {
     const question = await this.questionRepository.create(data);
     const vote = await this.voteService.getVoteByIdx(data.voteIdx);
+
     question.vote = vote;
 
     await this.questionRepository.save(question);
@@ -76,6 +77,10 @@ export default class QuestionService {
    */
   public deleteQuestion = async (idx: number): Promise<void> => {
     const question = await this.getQuestion(idx);
+
+    if (question === null) {
+      throw new CustomError(errors.NoQuestion);
+    }
     await this.questionRepository.remove(question);
   }
 }

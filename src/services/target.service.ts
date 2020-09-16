@@ -23,4 +23,12 @@ export default class TargetService {
 
     return target;
   }
+
+  /**
+   * @description 타겟 전체 조회
+   */
+  public getTargets = async (): Promise<Target[]> => {
+    const targets = this.targetRepository.getTargets();
+    return targets;
+  }
 }

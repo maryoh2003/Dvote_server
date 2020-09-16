@@ -19,19 +19,23 @@ const errors: { [key: string]: IError } = {
   },
   NoStudent: {
     code: 404,
-    message: '학생 없음'
+    message: '학생 없음',
   },
   NoTeacher: {
     code: 404,
-    message: '교사 없음'
+    message: '교사 없음',
   },
   NoAdmin: {
     code: 404,
-    message: '관리자 없음'
+    message: '관리자 없음',
   },
   NoVote: {
     code: 404,
-    message: '설문 없음'
+    message: '설문 없음',
+  },
+  NoQuestion: {
+    code: 404,
+    message: '항목 없음',
   },
 };
 

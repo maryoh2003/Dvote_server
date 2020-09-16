@@ -20,7 +20,6 @@ export default class VoteService {
     private readonly voteRepository: VoteRepository,
     private readonly teacherService: TeacherService,
     private readonly targetService: TargetService
-    // TODO: 타켓 서비스 만들어서 inject
   ) { }
 
   public getVotes = async (): Promise<Vote[]> => {

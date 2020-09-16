@@ -9,6 +9,7 @@ export default class RequestBase {
   }
 
   public async validate(): Promise<boolean> {
+
     const validateErrors: ValidationError[] = await validate(this);
     if (validateErrors.length === 0) return true;
 

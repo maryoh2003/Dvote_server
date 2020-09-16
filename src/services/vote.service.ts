@@ -10,6 +10,7 @@ import TeacherService from "./teacher.service";
 import errors from '@lib/errors';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import TargetService from './target.service';
+import Teacher from '@models/teacher';
 
 @Service()
 export default class VoteService {
@@ -45,7 +46,7 @@ export default class VoteService {
   }
 
   public createVote = async (email: string, data: VoteRequest): Promise<void> => {
-    const teacher = await this.teacherService.getTeacher(email);
+    const teacher: Teacher = await this.teacherService.getTeacher(email);
 
     const vote = await this.voteRepository.create(data);
     const target: Target = await this.targetService.getTarget(data.targetIdx);
@@ -55,13 +56,18 @@ export default class VoteService {
     await this.voteRepository.save(vote);
   }
 
-  public modifyVote = async (idx: number, data: VoteRequest): Promise<void> => {
-    console.log('service');
+  public modifyVote = async (email: string, idx: number, data: VoteRequest): Promise<void> => {
     const vote = await this.getVoteByIdx(idx);
     if (vote === null) {
       throw new CustomError(errors.NoVote);
     }
+    const teacher = await this.teacherService.getTeacher(email);
+    const target: Target = await this.targetService.getTarget(data.targetIdx);
+
     modelMapper(data, vote);
+    vote.target = target;
+    vote.teacher = teacher;
+
     await this.voteRepository.save(vote);
   }
 

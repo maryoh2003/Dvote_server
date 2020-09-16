@@ -78,18 +78,17 @@ export default class VoteController {
   /**
    * @description 설문 수정
    */
-  public modifyVote = async (req: Request, res: Response, next: NextFunction) => {
+  public modifyVote = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      console.log('controller');
-      const idx = getNumberParam(req.params);
-      const { body } = req;
+      const idx = getNumberParam(req.params.idx);
+      const { body, member } = req;
       const data = new VoteRequest(body);
 
       if (!await data.validate()) {
         throw new CustomError(errors.WrongRequest);
       }
 
-      await this.voteService.modifyVote(idx, data);
+      await this.voteService.modifyVote(member.email, idx, data);
 
       res.status(200).json({
         message: '설문 수정 성공',
@@ -104,7 +103,7 @@ export default class VoteController {
    */
   public deleteVote = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const idx = getNumberParam(req.params);
+      const idx = getNumberParam(req.params.idx);
       const vote = this.voteService.getVoteByIdx(idx);
 
       if (vote === null) {

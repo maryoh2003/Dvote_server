@@ -39,7 +39,7 @@ export default class VoteController {
    */
   public getVotesByTarget = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const target = getNumberParam(req.params);
+      const target = getNumberParam(req.params.target);
       const votes: Vote[] = await this.voteService.getVotesByTarget(target);
 
       res.status(200).json({

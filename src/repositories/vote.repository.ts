@@ -18,7 +18,7 @@ export default class VoteRepository extends Repository<Vote> {
 
   public getVotesByTarget = async (target: number): Promise<Vote[]> => {
     return this.createQueryBuilder()
-      .where('fk_target_group_idx = :target', { target })
+      .where('fk_target_idx = :target', { target })
       .orderBy('created_at', 'DESC')
       .getMany();
   }

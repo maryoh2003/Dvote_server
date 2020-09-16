@@ -34,7 +34,7 @@ export default (accessLevel: string) =>
 
       switch (accessLevel) {
         case 'student':
-          const student = await studentService.getStudent(member.email);
+          const student = await studentService.getStudentByEmail(member.email);
           if (student === null) {
             throw new CustomError(errors.Forbidden);
           }

@@ -23,4 +23,13 @@ export default class StudentRepository extends Repository<Student>{
       .orderBy('email', 'ASC')
       .getMany();
   }
+
+  /**
+   * @description email을 통한 학생 조회
+   */
+  public getStudentByEmail = async (email: string): Promise<Student> => {
+    return this.createQueryBuilder()
+      .where('fk_member_email = :email', { email })
+      .getOne();
+  }
 }

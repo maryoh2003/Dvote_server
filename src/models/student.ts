@@ -20,7 +20,7 @@ export default class Student {
   @Column({ name: 'student_number' })
   studentNumber: number;
 
-  @JoinColumn({ name: 'fk_memer_email' })
+  @JoinColumn({ name: 'fk_member_email' })
   @OneToOne(type => Member, {
     onDelete: 'CASCADE',
     nullable: false

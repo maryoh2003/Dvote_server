@@ -3,16 +3,34 @@ import errors from '@lib/errors';
 import { Service } from "typedi";
 import StudentRepository from "@repository/student.repository";
 import Student from "@models/student";
+import { InjectRepository } from 'typeorm-typedi-extensions';
 
 @Service()
 export default class StudentService {
 
   constructor(
+    @InjectRepository()
     private readonly studentRepository: StudentRepository,
   ) { }
 
-  public getStudent = async (email: string): Promise<Student> => {
-    const student = await this.studentRepository.findOne(email);
+  /**
+   * @description email을 통한 학생 조회
+   */
+  public getStudentByEmail = async (email: string): Promise<Student> => {
+    const student = await this.studentRepository.getStudentByEmail(email);
+
+    if (student === undefined) {
+      return null;
+    }
+
+    return student;
+  }
+
+  /**
+   * @description idx를 통한 학생 조회
+   */
+  public getStudentByIdx = async (idx: number): Promise<Student> => {
+    const student = await this.studentRepository.findOne(idx);
 
     if (student === undefined) {
       return null;

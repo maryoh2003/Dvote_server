@@ -12,6 +12,7 @@ export default class OptionChoiceRouter implements ICustomRouter {
   constructor(
     private optionChoiceController: OptionChoiceController,
   ) {
+    this.router.get('/:idx', this.optionChoiceController.getOptionChoicesByOptionIdx);
     this.router.post('/', auth('student'), this.optionChoiceController.createOptionChoice);
   }
 

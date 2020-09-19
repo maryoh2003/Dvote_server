@@ -8,7 +8,6 @@ import AuthRequest from "types/AuthRequest";
 import getNumberParam from "@lib/util/getNumberParam";
 import Vote from '@models/vote';
 
-
 @Service()
 export default class VoteController {
 
@@ -48,6 +47,29 @@ export default class VoteController {
           votes,
         },
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * @description 특정 설문 조회
+   */
+  public getVote = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const idx = getNumberParam(req.params.idx);
+      const vote = await this.voteService.getVoteByIdx(idx);
+
+      if (vote === null) {
+        throw new CustomError(errors.NoVote);
+      }
+
+      res.status(200).json({
+        message: '특정 설문 조회 성공',
+        data: {
+          vote,
+        }
+      })
     } catch (err) {
       next(err);
     }

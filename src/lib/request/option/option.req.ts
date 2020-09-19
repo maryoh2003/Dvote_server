@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 import RequestBase from '../requestBase';
 
 export default class OptionRequest extends RequestBase {
@@ -7,4 +7,7 @@ export default class OptionRequest extends RequestBase {
 
   @IsString()
   option: string;
+
+  @IsBoolean()
+  isMultiple: boolean;
 }

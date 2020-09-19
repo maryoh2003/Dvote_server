@@ -19,6 +19,9 @@ export default class Option {
   @Column({ name: 'option' })
   option: string;
 
+  @Column({ name: 'is_multiple' })
+  isMultiple: boolean;
+
   @OneToMany(type => OptionChoice, optionChoice => optionChoice.option)
   optionChoices: OptionChoice[];
 }

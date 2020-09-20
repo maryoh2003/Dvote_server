@@ -22,6 +22,9 @@ export default class Option {
   @Column({ name: 'is_multiple' })
   isMultiple: boolean;
 
+  @Column({ name: 'is_null_allowable' })
+  isNullAllowable: boolean;
+
   @OneToMany(type => OptionChoice, optionChoice => optionChoice.option)
   optionChoices: OptionChoice[];
 }

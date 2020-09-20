@@ -5,6 +5,9 @@ export default class VoteRequest extends RequestBase {
   @IsString()
   title: string;
 
+  @IsString()
+  subtitle: string;
+
   @IsNumber()
   targetIdx: number;
 

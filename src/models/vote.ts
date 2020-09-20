@@ -11,6 +11,9 @@ export default class Vote {
   @Column({ name: 'title' })
   title: string;
 
+  @Column({ name: 'subtitle' })
+  subtitle: string;
+
   @JoinColumn({
     name: 'fk_target_idx'
   })

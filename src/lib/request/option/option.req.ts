@@ -10,4 +10,7 @@ export default class OptionRequest extends RequestBase {
 
   @IsBoolean()
   isMultiple: boolean;
+
+  @IsBoolean()
+  isNullAllowable: boolean;
 }

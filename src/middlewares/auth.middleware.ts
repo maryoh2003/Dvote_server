@@ -36,31 +36,35 @@ export default (accessLevel?: string) =>
       req.member = member;
       console.log('4');
 
-      switch (accessLevel) {
-        case 'student':
-          const student = await studentService.getStudentByEmail(member.email);
-          if (student === null) {
-            throw new CustomError(errors.Forbidden);
-          }
-          return next();
-        case 'teacher':
-          const teacher = await teacherService.getTeacher(id);
-          if (teacher === null) {
-            throw new CustomError(errors.Forbidden);
-          }
-          return next();
-        case 'admin':
-          const admin = await adminService.getAdmin(id);
-          if (admin === null) {
-            throw new CustomError(errors.Forbidden);
-          }
-          return next();
-        default:
-          throw new CustomError({
-            code: 500,
-            message: '옳지 않은 권한',
-          })
+      if (accessLevel !== undefined) {
+        switch (accessLevel) {
+          case 'student':
+            const student = await studentService.getStudentByEmail(member.email);
+            if (student === null) {
+              throw new CustomError(errors.Forbidden);
+            }
+            return next();
+          case 'teacher':
+            const teacher = await teacherService.getTeacher(id);
+            if (teacher === null) {
+              throw new CustomError(errors.Forbidden);
+            }
+            return next();
+          case 'admin':
+            const admin = await adminService.getAdmin(id);
+            if (admin === null) {
+              throw new CustomError(errors.Forbidden);
+            }
+            return next();
+          default:
+            throw new CustomError({
+              code: 500,
+              message: '옳지 않은 권한',
+            })
+        }
       }
+      next();
+
     } catch (err) {
       const error = tokenService.searchTokenError(err);
       errorMiddleware(error, req, res, next);

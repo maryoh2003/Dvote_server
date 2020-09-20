@@ -1,3 +1,4 @@
+import AuthRequest from 'types/AuthRequest';
 import { Service } from "typedi";
 import MemberService from '@service/member.service';
 import TokenService from "@service/token.service";
@@ -25,10 +26,12 @@ export default class AuthController {
       const { body } = req;
 
       const data = new MemberRequest(body);
+      console.log(data);
       let registerData;
 
       if (data.memberType === MemberType.STUDENT) {
         registerData = new StudentRequest(body);
+        console.log(registerData);
         if (!await registerData.validate()) {
           throw new CustomError(errors.WrongRequest);
         }
@@ -42,7 +45,9 @@ export default class AuthController {
 
         await this.memberService.registerStudent(registerData);
       } else if (data.memberType === MemberType.TEACHER) {
+        console.log('2');
         registerData = new TeacherRequest(body);
+        console.log(registerData);
         if (!await registerData.validate()) {
           throw new CustomError(errors.WrongRequest);
         }
@@ -130,6 +135,30 @@ export default class AuthController {
 
       res.status(200).json({
         message: '회원 거절 성공',
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * @description 자기 정보 조회
+   */
+  public lookupProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const { member } = req;
+      console.log(member);
+      const profile = await this.memberService.getMember(member.email);
+
+      if (profile === null) {
+        throw new CustomError(errors.NoMember);
+      }
+
+      res.status(200).json({
+        message: '회원 조회 성공',
+        data: {
+          profile,
+        }
       });
     } catch (err) {
       next(err);

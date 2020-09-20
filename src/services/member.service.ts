@@ -18,10 +18,16 @@ export default class MemberService {
   constructor(
     @InjectRepository()
     private readonly memberRepository: MemberRepository,
+    @InjectRepository()
     private readonly studentRepository: StudentRepository,
+    @InjectRepository()
     private readonly teacherRepository: TeacherRepository,
   ) { }
 
+  /**
+   * @description 회원 조회
+   * @param email 회원 email
+   */
   public getMember = async (email: string): Promise<Member | null> => {
     const member = await this.memberRepository.findOne(email);
     if (member === undefined) {
@@ -32,7 +38,7 @@ export default class MemberService {
 
   /**
    * @description 회원 존재 여부 확인
-   * @param email 이메일
+   * @param email 회원 email
    */
   public isExist = async (email: string): Promise<boolean> => {
     const member = await this.memberRepository.getMemberByEmail(email);
@@ -64,10 +70,10 @@ export default class MemberService {
    * @description 교사 회원가입
    */
   public registerTeacher = async (data: TeacherRequest): Promise<void> => {
-    const member = this.memberRepository.create(data);
+    const member = await this.memberRepository.create(data);
     member.memberType = MemberType.TEACHER;
 
-    const teacher = this.teacherRepository.create(data);
+    const teacher = await this.teacherRepository.create(data);
 
     await getManager().transaction(async (manager) => {
       const createdMember = await this.memberRepository.addMember(manager, member);

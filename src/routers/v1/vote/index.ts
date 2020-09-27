@@ -13,7 +13,7 @@ export default class VoteRouter implements ICustomRouter {
     private voteController: VoteController,
   ) {
     this.router.get('/', this.voteController.getVotes);
-    this.router.get('/:target', this.voteController.getVotesByTarget);
+    this.router.get('/target/:target', this.voteController.getVotesByTarget);
     this.router.get('/:idx', this.voteController.getVote);
     this.router.post('/', auth('teacher'), this.voteController.createVote);
     this.router.put('/:idx', auth('teacher'), this.voteController.modifyVote);

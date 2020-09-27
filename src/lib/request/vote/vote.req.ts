@@ -12,8 +12,5 @@ export default class VoteRequest extends RequestBase {
   targetIdx: number;
 
   @IsDateString()
-  scheduledAt: Date;
-
-  @IsDateString()
   expiredAt: Date
 }

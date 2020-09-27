@@ -92,7 +92,7 @@ export default class AuthController {
       res.status(200).json({
         message: '로그인 성공',
         data: {
-          'x-access-token': token,
+          'token': token,
           member,
         },
       });

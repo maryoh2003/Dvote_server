@@ -34,9 +34,6 @@ export default class Vote {
   @RelationId((vote: Vote) => vote.teacher)
   teacherIdx: number;
 
-  @Column({ name: 'scheduled_at' })
-  scheduledAt: Date;
-
   @Column({ name: 'expired_at' })
   expiredAt: Date;
 

@@ -7,6 +7,7 @@ import TargetRouter from './taget';
 import QuestionRouter from './question';
 import OptionRouter from './option';
 import OptionChoiceRouter from './optionChoice';
+import MemberRouter from './member';
 
 @Service()
 export default class V3Router implements ICustomRouter {
@@ -19,6 +20,7 @@ export default class V3Router implements ICustomRouter {
     private readonly questionRouter: QuestionRouter,
     private readonly optionRouter: OptionRouter,
     private readonly optionChoiceRouter: OptionChoiceRouter,
+    private readonly memberRouter: MemberRouter,
   ) {
     this.router.use('/auth', this.authRouter.getRouter());
     this.router.use('/vote', this.voteRouter.getRouter());
@@ -26,6 +28,7 @@ export default class V3Router implements ICustomRouter {
     this.router.use('/question', this.questionRouter.getRouter());
     this.router.use('/option', this.optionRouter.getRouter());
     this.router.use('/choice', this.optionChoiceRouter.getRouter());
+    this.router.use('member', this.memberRouter.getRouter());
   }
 
   public getRouter = (): Router => this.router;

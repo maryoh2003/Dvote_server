@@ -11,7 +11,6 @@ import errors from '@lib/errors';
 
 export default (accessLevel?: string) =>
   async (req: any, res: Response, next: NextFunction) => {
-    console.log('1');
 
     const tokenService = Container.get(TokenService);
     const memberService = Container.get(MemberService);
@@ -22,19 +21,16 @@ export default (accessLevel?: string) =>
     const token = req.headers['x-access-token'];
 
     try {
-      console.log('2');
 
       const decoded = Object(await tokenService.verifyToken(token));
       const { id }: { id: string } = decoded;
       const member = await memberService.getMember(id);
-      console.log('3');
 
       if (member === null) {
         throw new CustomError(errors.NoMember);
       }
 
       req.member = member;
-      console.log('4');
 
       if (accessLevel !== undefined) {
         switch (accessLevel) {

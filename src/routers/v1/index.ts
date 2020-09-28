@@ -28,7 +28,7 @@ export default class V3Router implements ICustomRouter {
     this.router.use('/question', this.questionRouter.getRouter());
     this.router.use('/option', this.optionRouter.getRouter());
     this.router.use('/choice', this.optionChoiceRouter.getRouter());
-    this.router.use('member', this.memberRouter.getRouter());
+    this.router.use('/member', this.memberRouter.getRouter());
   }
 
   public getRouter = (): Router => this.router;

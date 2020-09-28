@@ -74,11 +74,21 @@ export default class MemberRepository extends Repository<Member> {
   }
 
   /**
-   * @description 승인 대기 중 회원 조회
+   * @description 승인 대기 중인 회원 전체 조회
    */
   public getWaitingMembers = () => {
     return this.createQueryBuilder()
       .where('is_allowed = false')
+      .orderBy('email', 'ASC')
+      .getMany();
+  }
+
+  /**
+   * @description 승인된 회원 전체 조회
+   */
+  public getMembers = () => {
+    return this.createQueryBuilder()
+      .where('is_allowed = true')
       .orderBy('email', 'ASC')
       .getMany();
   }

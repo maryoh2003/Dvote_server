@@ -16,12 +16,12 @@ export default class TeacherService {
   ) { }
 
   public getAcceptedTeachers = async (): Promise<Teacher[]> => {
-    const teachers = this.teacherRepository.getAcceptedTeachers();
+    const teachers = await this.teacherRepository.getAcceptedTeachers();
     return teachers;
   }
 
   public getTeacherByIdx = async (idx: number): Promise<Teacher | null> => {
-    const teacher = this.teacherRepository.findOne(idx);
+    const teacher = await this.teacherRepository.findOne(idx);
 
     if (teacher === undefined) {
       return null;

@@ -7,6 +7,8 @@ export default class TeacherRepository extends Repository<Teacher> {
 
   /**
    * @description 선생님 추가
+   * @param manager 트랜젝션 manager
+   * @param member 선생님 객체
    */
   public async addTeacher(@TransactionManager() manager: EntityManager, teacher: Teacher): Promise<Teacher> {
     return manager.save<Teacher>(teacher);
@@ -17,9 +19,9 @@ export default class TeacherRepository extends Repository<Teacher> {
    */
   public getAcceptedTeachers = async (): Promise<Teacher[]> => {
     return this.createQueryBuilder('teacher')
-      .leftJoinAndSelect('teacher.member', 'teacher')
-      .where('is_allowed = true')
-      .orderBy('email', 'ASC')
+      .leftJoinAndSelect('teacher.member', 'member')
+      .where('member.is_allowed = true')
+      .orderBy('member.email', 'ASC')
       .getMany();
   }
 

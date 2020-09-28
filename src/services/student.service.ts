@@ -38,6 +38,7 @@ export default class StudentService {
 
     return student;
   }
+
   /**
    * @description 승인된 학생 전체 조회
    */

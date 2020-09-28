@@ -37,15 +37,13 @@ export default class MemberController {
    */
   public getAcceptedMembers = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const teachers = await this.teacherService.getAcceptedTeachers();
-      const students = await this.studentService.getAcceptedStudents();
+      const members = await this.memberService.getMembers();
 
       res.status(200).json({
         message: '승인된 회원 전체 조회 성공',
         data: {
-          teachers,
-          students,
-        },
+          members,
+        }
       });
     } catch (err) {
       next(err);

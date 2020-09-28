@@ -16,8 +16,13 @@ export default class AdminService {
   ) { }
 
   public getAdmin = async (email: string): Promise<Admin> => {
-    const admin = await this.adminRepository.findOne(email);
+    const teacher = await this.teacherService.getTeacher(email);
 
+    if (teacher === null) {
+      throw new CustomError(errors.NoMember);
+    }
+
+    const admin = await this.adminRepository.getAdminByTeacher(teacher);
     if (admin === undefined) {
       return null;
     }

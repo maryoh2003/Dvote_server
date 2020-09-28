@@ -17,10 +17,10 @@ export default class StudentRepository extends Repository<Student>{
    * @description 승인된 학생 전체 조회
    */
   public getAcceptedStudents = async (): Promise<Student[]> => {
-    return this.createQueryBuilder()
-      .leftJoinAndSelect('student.member', 'student')
-      .where('is_allowed = true')
-      .orderBy('email', 'ASC')
+    return this.createQueryBuilder('student')
+      .leftJoinAndSelect('student.member', 'member')
+      .where('member.is_allowed = true')
+      .orderBy('member.email', 'ASC')
       .getMany();
   }
 

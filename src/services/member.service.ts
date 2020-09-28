@@ -142,10 +142,19 @@ export default class MemberService {
   }
 
   /**
-   * @description 승인 대기 중인 회원 조회
+   * @description 승인 대기 중인 회원 전체 조회
    */
   public getWaitingMembers = async (): Promise<Member[]> => {
-    const members = this.memberRepository.getWaitingMembers();
+    const members = await this.memberRepository.getWaitingMembers();
+
+    return members;
+  }
+
+  /**
+   * @description 승인된 회원 전체 조회
+   */
+  public getMembers = async (): Promise<Member[]> => {
+    const members = await this.memberRepository.getMembers();
 
     return members;
   }

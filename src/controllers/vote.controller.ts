@@ -67,7 +67,7 @@ export default class VoteController {
       res.status(200).json({
         message: '특정 설문 조회 성공',
         data: {
-          vote,
+          votes: vote,
         }
       })
     } catch (err) {

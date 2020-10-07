@@ -142,6 +142,18 @@ export default class MemberService {
   }
 
   /**
+   * @description 회원 삭제
+   */
+  public deleteMember = async (email: string) => {
+    const member = await this.getMember(email);
+
+    if (member === null) {
+      throw new CustomError(errors.NoMember);
+    }
+    await this.memberRepository.remove(member);
+  }
+
+  /**
    * @description 승인 대기 중인 회원 전체 조회
    */
   public getWaitingMembers = async (): Promise<Member[]> => {

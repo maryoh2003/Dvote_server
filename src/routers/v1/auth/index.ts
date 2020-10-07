@@ -16,6 +16,7 @@ export default class AuthRouter implements ICustomRouter {
     this.router.post('/login', this.authController.login);
     this.router.post('/allow', auth('admin'), this.authController.allowMember);
     this.router.post('/deny', auth('admin'), this.authController.denyMember);
+    this.router.post('/delete', auth('admin'), this.authController.deleteMember);
     this.router.get('/', auth(), this.authController.lookupProfile);
   }
 

@@ -142,6 +142,26 @@ export default class AuthController {
   }
 
   /**
+   * @description 회원 삭제
+   */
+  public deleteMember = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email }: { email: string } = req.body;
+      if (!email) {
+        throw new CustomError(errors.WrongRequest);
+      }
+
+      await this.memberService.deleteMember(email);
+
+      res.status(200).json({
+        message: '회원 삭제 성공',
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
    * @description 자기 정보 조회
    */
   public lookupProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
